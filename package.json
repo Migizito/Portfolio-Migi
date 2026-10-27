@@ -8,12 +8,12 @@
   "scripts": {
     "preinstall": "node scripts/check-node.mjs",
     "predev": "node scripts/check-node.mjs",
-    "dev": "vinext dev",
-    "prebuild": "node scripts/check-node.mjs",
-    "build": "vinext build",
+    "dev": "next dev",
+    "prebuild": "node scripts/check-node.mjs && node scripts/check-public-assets.mjs",
+    "build": "next build",
     "prestart": "node scripts/check-node.mjs",
-    "start": "vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "start": "node scripts/preview-static.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },

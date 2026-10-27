@@ -1,6 +1,6 @@
 # Portafolio de diseño + desarrollo
 
-Portafolio responsive de Miguel Tapia con fondo claro, tipografía editorial, ilustración animada y galerías de imagen y video. Está construido con React, TypeScript, Next.js y vinext.
+Portafolio responsive de Miguel Tapia con fondo claro, tipografía editorial, ilustración animada y galerías de imagen y video. Está construido con React, TypeScript y Next.js. La compilación de producción genera una web estática para Netlify en `out/`, sin servidor ni funciones.
 
 ## Requisitos
 
@@ -11,7 +11,7 @@ Portafolio responsive de Miguel Tapia con fondo claro, tipografía editorial, il
 
 ## Clonar con los medios originales
 
-Los videos, GIF e imágenes se guardan en Git LFS. Después de clonar el repositorio privado con tu cuenta autorizada:
+Los videos, GIF e imágenes se guardan en Git LFS. Después de clonar el repositorio (con una cuenta autorizada si es privado):
 
 ```bash
 git lfs install --local
@@ -52,6 +52,39 @@ npm run dev
 npm run build
 npm run start
 ```
+
+`npm run start` sirve la exportación localmente en `http://localhost:3000`, incluyendo soporte para buscar posiciones dentro de los videos. No uses `next start` con `output: "export"`.
+
+## Desplegar en Netlify
+
+Primero sube estos cambios a GitHub. `netlify.toml` contiene la configuración de compilación y publicación; no se debe publicar `.next`, `dist` ni la raíz del repositorio.
+
+| Ajuste | Valor |
+| --- | --- |
+| Branch to deploy | `main` |
+| Base directory | Vacío (raíz del repositorio) |
+| Build command | `npm run build` |
+| Publish directory | `out` |
+| Functions directory | Vacío; no se necesitan funciones |
+
+Antes del primer despliegue, agrega **`GIT_LFS_ENABLED=true` en la interfaz de Netlify**. Debe configurarse allí, no en `netlify.toml`, porque los medios se descargan antes de leer ese archivo. No restrinjas `GIT_LFS_FETCH_INCLUDE` a una selección incompleta de extensiones. Si un intento anterior descargó solo punteros, vuelve a desplegar borrando la caché de compilación.
+
+La versión Node 24, la desactivación de telemetría de Next y la opción de omitir el runtime dinámico están declaradas en `netlify.toml`. La comprobación previa detiene los builds de Netlify si faltan los medios originales de LFS. Las rutas se exportan como carpetas con `index.html`, por lo que las páginas internas admiten acceso directo y recarga. No hace falta una regla de redirección SPA.
+
+El directorio `out/` contiene los medios originales (aproximadamente 1,1 GiB); revisa las cuotas de transferencia y almacenamiento de Git LFS y Netlify antes de publicar. Un dominio propio no requiere por sí solo hacer público el repositorio: depende del proveedor y del plan.
+
+**Privacidad pendiente:** la adaptación de hosting no elimina los metadatos de los videos ni los datos de contacto incrustados en el GIF de referencia. La máscara CSS del footer no borra esos datos. Revisar y sanear los archivos antes de publicar; sustituirlos en un commit nuevo tampoco borra versiones históricas.
+
+## Comprobaciones
+
+```bash
+npm test
+npm audit
+```
+
+Las pruebas comprueban las seis páginas exportadas, los 43 videos de Motion, los 46 de IA, las 64 imágenes y el servidor de previsualización. CI no descarga los medios LFS: comprueba las páginas y los archivos de referencia, no reproduce todos los videos.
+
+La configuración anterior de Vinext/Cloudflare (`vite.config.ts`, `build/` y `worker/`) se conserva como referencia y mantiene la integración de Sites, pero no forma parte del build de Netlify ni se ejecuta con los scripts predeterminados.
 
 ## Dónde editar
 

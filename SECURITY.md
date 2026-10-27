@@ -28,3 +28,9 @@ La comprobación de CI solo tiene permiso de lectura sobre el contenido. No desp
 Los `overrides` de `package.json` fijan versiones corregidas de dependencias indirectas de vinext, Miniflare, Satori y el cargador de Drizzle. No eliminarlos sin comprobar la auditoría y la compatibilidad. El cargador `@esbuild-kit` está obsoleto, aunque su dependencia esbuild está actualizada; revisar su sustitución al actualizar Drizzle.
 
 La compilación y las seis rutas del portafolio están comprobadas, incluidas las cantidades de medios de las galerías. El sitio no genera imágenes Open Graph dinámicas: la importación directa de `@vercel/og` en Node ESM presenta un error de `Dynamic require of fs` en su dependencia HarfBuzz. Resolver y probar ese caso antes de incorporar esa función. La auditoría de paquetes no sustituye las pruebas funcionales ni una revisión de seguridad completa.
+
+## Publicación estática en Netlify
+
+Publicar únicamente `out/`. Los auxiliares de autenticación, ejemplos de base de datos y Worker de la plantilla no se incluyen como endpoints en la exportación estática. No publicar `.next/`, `dist/`, la raíz del proyecto ni archivos de herramientas.
+
+El cambio de hosting no sanea los medios existentes: hay metadatos con rutas de proyectos en 21 videos, y el GIF original del footer contiene datos de contacto del autor de referencia. La máscara CSS solo los oculta en la página. Preparar copias saneadas y revisar por separado el historial Git/LFS antes de considerar resuelta esa exposición. La configuración de Netlify no modifica la visibilidad del repositorio.
