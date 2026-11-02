@@ -25,7 +25,7 @@ export function HeroAnimation({ variant = "hero" }: { variant?: "hero" | "footer
     <div className={isFooter ? "footer-artwork" : "hero-artwork"}>
       <img src={`/${imageName}${paused ? "-poster.png" : ".gif"}`} width="1400" height={isFooter ? 877 : 1089} alt={description[language]} loading={isFooter ? "lazy" : "eager"} fetchPriority={isFooter ? "auto" : "high"} />
       {isFooter && <>
-        <a className="footer-sticker footer-sticker-email" href="mailto:hello@migueltapia.dev"><span aria-hidden="true">✉</span>hello@migueltapia.dev</a>
+        <a className="footer-sticker footer-sticker-email" href="mailto:migitmon.mt@gmail.com"><span aria-hidden="true">✉</span>migitmon.mt@gmail.com</a>
         <span className="footer-sticker footer-sticker-name">MIGUEL TAPIA</span>
         <a className="footer-sticker footer-sticker-github" href="https://github.com/" target="_blank" rel="noreferrer">GitHub ↗</a>
         <a className="footer-sticker footer-sticker-linkedin" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
